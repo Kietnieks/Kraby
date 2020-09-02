@@ -80,6 +80,7 @@ screen = pygame.display.set_mode(size)
 #player = Sprite("intro_ball.gif")
 player = Sprite(os.path.join(root,"blue goblin.png"),scale=0.25)
 
+clock = pygame.time.Clock()
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -92,6 +93,7 @@ while 1:
         if ballrect.top < 0 or ballrect.bottom > height:
             speed[1] = -speed[1]
 
+    ms_elapsed = clock.tick(60)
     screen.fill(grey)
     player.draw(screen)
     pygame.display.flip()
