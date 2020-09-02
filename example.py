@@ -1,5 +1,10 @@
 # XXX Add a simple map design
 # XXX introduce coustum sprites/backgrounds
+
+# Resources:
+# http://programarcadegames.com/index.php?chapter=introduction_to_sprites
+# https://www.pygame.org/docs/
+
 import sys
 import os
 import pygame
