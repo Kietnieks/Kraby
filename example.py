@@ -3,8 +3,10 @@
 # XXX introduce coustum sprites/backgrounds
 # XXX
 import sys
+import os
 import pygame
 pygame.init()
+root = sys.path[0]
 
 class Sprite:
     def __init__(self,image_file,scale=None):
@@ -38,7 +40,7 @@ grey = 50, 50, 50
 screen = pygame.display.set_mode(size)
 
 #player = Sprite("intro_ball.gif")
-player = Sprite("blue goblin.png",scale=0.25)
+player = Sprite(os.path.join(root,"blue goblin.png"),scale=0.25)
 
 while 1:
     for event in pygame.event.get():
