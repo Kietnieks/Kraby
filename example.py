@@ -2,6 +2,22 @@
 # XXX introduce jumping,slow falling,side glideing.
 # XXX introduce coustum sprites/backgrounds
 # XXX
+# XXX Internal needs:
+# XXX - update rate control:
+# XXX   - on fast systems, limit the maximum update tick rate
+# XXX   - on slow systems, scale up the move size per tick
+# XXX - background
+# XXX   - when drawing, a horizontal scroll position selects what portion of
+# XXX     the background is blitted onto the screen, and also offsets the
+# XXX     sprite position (presumably all positions are tracked in absolute
+# XXX     coordinates and adjusted for the scroll only during display)
+# XXX   - the background is also responsible for supplying the ground height
+# XXX     and horizontal obstacle positions to limit-check moves
+# XXX     - the best performance might be if we limit-check horizontal moves
+# XXX       at the highest point, so each update might perform up moves, then
+# XXX       horizontal moves, then down moves
+# XXX   - maybe, the background is text-encoded, and characters reference
+# XXX     different image files for tiling
 import sys
 import os
 import pygame
