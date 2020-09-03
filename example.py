@@ -11,7 +11,7 @@ import pygame
 pygame.init()
 root = sys.path[0]
 
-class KeyState:
+class KeyState(dict):
     '''Track the current state of all keys.
 
     self.active_keys has an entry for each key currently depressed.
@@ -19,15 +19,19 @@ class KeyState:
     handled specially.
     '''
     event_types = (pygame.KEYDOWN,pygame.KEYUP)
-    def __init__(self):
-        self.active_keys = dict()
     def handle_event(self,event,now):
         if event.type not in self.event_types:
             return
         if event.type == pygame.KEYDOWN:
-            self.active_keys[event.key] = now
+            self[event.key] = now
         else:
-            del(self.active_keys[event.key])
+            try:
+                del(self[event.key])
+            except KeyError:
+                # if the focus changes while a key is down, it's possible
+                # to get a KEYUP event that we've never seen the KEYDOWN
+                # for; just ignore this
+                pass
 
 class Background:
     class Strip:
@@ -158,7 +162,7 @@ class Sprite:
             return speed * ms_elapsed / 1000
         long_press_time = 500
         # vertical motion
-        v = key_state.active_keys.get(pygame.K_w)
+        v = key_state.get(pygame.K_w)
         if v is None:
             vspeed = 600 # normal fall (gravity)
         elif now - v > long_press_time:
@@ -170,7 +174,7 @@ class Sprite:
         self.rect = new_rect.clamp(bounding_box)
         # horizontal motion
         d = self.hmove
-        l = set([d[x] for x in key_state.active_keys if x in d])
+        l = set([d[x] for x in key_state if x in d])
         if len(l) == 1:
             bounding_box = background.get_horiz_bb(self.rect)
             hspeed = next(iter(l))
